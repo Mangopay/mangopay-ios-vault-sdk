@@ -1,0 +1,106 @@
+
+variables:
+ DEVELOPMENT_BRANCH: "develop"
+ RELEASE_BRANCH: "main"
+ DEMO_PROJECT_NAME: "MangoPayExampleCheckout"
+ DEMO_PATH: "$CI_PROJECT_DIR/Examples/MangoPayExampleCheckout"
+ DEMO_ARCHIVE_PATH: "$DEMO_PATH/build/Archive.xcarchive"
+ DEMO_IPA_PATH: "$DEMO_PATH/build/MangoPayExampleCheckout.ipa"
+
+stages:
+ - build
+ - archive
+ - deploy
+
+before_script:
+  ## Install ssh-agent if not already installed, it is required by Docker.
+  ## (change apt-get to yum if you use an RPM-based image)
+  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+
+  ## Run ssh-agent (inside the build environment)
+  - eval $(ssh-agent -s)
+
+  ## Give the right permissions, otherwise ssh-add will refuse to add files
+  ## Add the SSH key stored in SSH_PRIVATE_KEY file type CI/CD variable to the agent store
+  - chmod 400 "$SSH_PRIVATE_KEY"
+  - ssh-add "$SSH_PRIVATE_KEY"
+
+  ## Create the SSH directory and give it the right permissions
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+
+  - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+
+  - apt-get install -y git
+  - git --version
+
+  ## Optionally, if you will be using any Git commands, set the user name and
+  ## and email.
+  ##
+  # - git config --global user.email "user@example.com"
+  # - git config --global user.name "User name"
+
+#build-test-project:
+#  stage: build
+#  script:
+#     - echo "build"
+#     - echo $CI_PROJECT_DIR
+#     - xcodebuild clean -workspace $DEMO_PATH/$DEMO_PROJECT_NAME.xcodeproj/project.xcworkspace -disableAutomaticPackageResolution -scheme $DEMO_PROJECT_NAME | xcpretty 
+#     - xcodebuild test -workspace $DEMO_PATH/$DEMO_PROJECT_NAME.xcodeproj/project.xcworkspace -scheme $DEMO_PROJECT_NAME -destination 'platform=iOS Simulator,name=iPhone 12 Pro,OS=15.2' | xcpretty -s
+#  # tags:
+#  #  - ios-tag
+#  #  - version-1.0
+#archive-build:
+#  dependencies: []
+#  stage: archive
+#  artifacts:
+#    paths:
+#      - $DEMO_IPA_PATH
+#  script:
+#    - xcodebuild -project $DEMO_PATH/$DEMO_PROJECT_NAME.xcodeproj -allowProvisioningUpdates -scheme $DEMO_PROJECT_NAME -archivePath $DEMO_ARCHIVE_PATH archive
+#    - xcodebuild -exportArchive -archivePath $DEMO_ARCHIVE_PATH -allowProvisioningUpdates -exportPath $DEMO_PATH/build -exportOptionsPlist $DEMO_PATH/$DEMO_PROJECT_NAME/Info.plist -exportProvisioningProfile "com.whenthen.checkout.WhenThenExampleCheckout"
+#  # tags:
+#  #   - ios-tag
+#  #   - version-1.0
+#  only:
+#    - ci-config
+#
+#deploy-archive:
+#  stage: deploy
+#  interruptible: true
+#  rules:
+#    - if: $CI_COMMIT_BRANCH == $DEVELOPMENT_BRANCH || ($CI_COMMIT_BRANCH == $RELEASE_BRANCH)
+#  script:
+#     - echo "Deploying demo archive to Browserstack"
+#     - curl -u $BROWSERSTACK_API_KEY -X POST "https://api-cloud.browserstack.com/app-live/upload" -F "file=@$DEMO_IPA_PATH"
+
+deploy-to-cocoapod:
+ stage: deploy
+ interruptible: true
+ script:
+    - echo -e "Deploy to Cocoapods"
+ only:
+    refs:
+      - tags
+ when: manual
+    
+deploy-main-github:
+ stage: deploy
+ interruptible: true
+ rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+ script:
+    - git remote add github-mirror git@github.com:Mangopay/mangopay-ios-sdk.git
+    - git push github-mirror main
+ when: manual
+
+deploy-tag-github:
+ stage: deploy
+ interruptible: true
+ script:
+    - git remote add github-mirror git@github.com:Mangopay/mangopay-ios-sdk.git
+    - git push github-mirror ${CI_COMMIT_TAG}
+ only:
+    refs:
+      - tags
+ when: manual
