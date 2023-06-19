@@ -29,7 +29,7 @@ To use the Mangopay Vault SDK, you’ll need:
 Follow these steps to integrate the package into your Xcode project with SPM, 
 
 1. Open your Xcode project and go to File > Swift Packages > Add Package Dependency.
-2. In the prompted dialog, enter the repository URL [**https://github.com/Mangopay/mangopay-ios-vault-sdk**](https://github.com/Mangopay/mangopay-ios-vault-sdk).
+2. In the prompted dialog, enter the repository URL **https://github.com/Mangopay/mangopay-ios-vault-sdk**.
 3. Select `MangoPayVault` package by checking the corresponding checkbox.
 4. Proceed by following the on-screen instructions to complete the integration.
 
@@ -38,7 +38,7 @@ Follow these steps to integrate the package into your Xcode project with SPM,
 Open your `podfile` and add:
 
 ```swift
-pod 'MangoPayVault', '~>0.0.38-beta'
+pod 'MangoPayVault'
 ```
 
 Add these sources above your `podfile` :
