@@ -24,19 +24,8 @@ let package = Package(
         .testTarget(
             name: "Tests",
             path: "Tests"
-//            swiftSettings: [
-//                .unsafeFlags(["-enable-testing-search-paths"]),
-//            ]
-        )
 
-//        .plugin(name: "SwiftLintCommandPlugin.swift",
-//                capability: .command(
-//                    intent: .sourceCodeFormatting(),
-//                    permissions: [
-//                        .writeToPackageDirectory(reason: "This command reformats source files")
-//                    ]
-//                )
-//               )
+        )
         
     ]
 )
