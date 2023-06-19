@@ -29,13 +29,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         showLoader(false)
-        clientIDTextfield.text = "checkoutsquatest"
-        apiKeyTextfield.text = "7fOfvt3ozv6vkAp1Pahq56hRRXYqJqNXQ4D58v5QCwTocCVWWC"
-        userIdTextfield.text = "158091557"
-        cardNumberTextfield.text = "4970107111111119"
-        cvvTextfield.text = "123"
-        mmExpiryField.text = "12"
-        yyExpiryField.text = "24"
     }
 
     @IBAction func didTapPay(_ sender: UIButton) {
