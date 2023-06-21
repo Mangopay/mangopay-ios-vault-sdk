@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-    s.name         = "MangoPayVault"
+    s.name         = "MangoPayVaultSDK"
     s.version      = "0.0.2-beta"
     s.summary      = "Securely tokenize payment cards"
     s.description  = <<-DESC
