@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "MangoPayVaultSDK",
+    name: "MangopayVaultSDK",
     defaultLocalization: "en",
     platforms: [
         .macOS(.v10_15),
