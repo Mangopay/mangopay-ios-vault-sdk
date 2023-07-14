@@ -9,16 +9,6 @@ import Foundation
 
 public typealias MangopayCallBack = ((CardRegistration?, Error?) -> ())
 
-public protocol MangopayVaultDelegate: AnyObject {
-    func onSuccess(card: CardRegistration)
-    func onFailure(error: Error)
-}
-
-public protocol MangopayVaultCreateCustomerDelegate: AnyObject {
-    func onCustomerCreatedSuccessfully(customerId: String)
-    func onCustomerCreationFailed(error: Error)
-}
-
 public enum Environment: String {
     case sandbox
     case prod
