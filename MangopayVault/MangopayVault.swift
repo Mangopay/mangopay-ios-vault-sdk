@@ -7,17 +7,7 @@
 
 import Foundation
 
-public typealias MangoPayCallBack = ((CardRegistration?, Error?) -> ())
-
-public protocol MangoPayVaultDelegate: AnyObject {
-    func onSuccess(card: CardRegistration)
-    func onFailure(error: Error)
-}
-
-public protocol MangoPayVaultCreateCustomerDelegate: AnyObject {
-    func onCustomerCreatedSuccessfully(customerId: String)
-    func onCustomerCreationFailed(error: Error)
-}
+public typealias MangopayCallBack = ((CardRegistration?, Error?) -> ())
 
 public enum Environment: String {
     case sandbox
@@ -33,7 +23,7 @@ public enum Environment: String {
     }
 }
 
-public class MangoPayVault {
+public class MangopayVault {
     
     private static var paylineClient: CardRegistrationClientProtocol?
 
@@ -46,13 +36,13 @@ public class MangoPayVault {
     }
 
     func setPaylineClient(paylineClient: CardRegistrationClientProtocol) {
-        MangoPayVault.paylineClient = paylineClient
+        MangopayVault.paylineClient = paylineClient
     }
 
     public static func tokenizeCard(
         card: Cardable,
         cardRegistration: CardRegistration? = nil,
-        mangoPayVaultCallback: @escaping MangoPayCallBack
+        mangoPayVaultCallback: @escaping MangopayCallBack
     ) {
         do {
             let isValidCard = try validateCard(with: card)
@@ -72,15 +62,15 @@ public class MangoPayVault {
     private static func tokenizeMGP(
         with card: Cardable,
         cardRegistration: CardRegistration?,
-        mangoPayVaultCallback: @escaping MangoPayCallBack
+        mangoPayVaultCallback: @escaping MangopayCallBack
     ) {
 
         guard let _cardRegistration = cardRegistration else { return }
         
-        guard let _clientId = MangoPayVault.clientId else { return }
+        guard let _clientId = MangopayVault.clientId else { return }
 
         if paylineClient == nil {
-            paylineClient = MangopayVaultClient(url: MangoPayVault.environment.url)
+            paylineClient = MangopayVaultClient(url: MangopayVault.environment.url)
         }
 
         Task {
@@ -155,7 +145,3 @@ public class MangoPayVault {
     }
 }
 
-extension MangoPayVault {
-    
-    
-}
