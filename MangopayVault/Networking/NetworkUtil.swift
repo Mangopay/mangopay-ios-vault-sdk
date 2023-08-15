@@ -169,11 +169,11 @@ private extension NetworkUtil {
       ) throws -> T {
 
         guard var data = responseData else {
-            throw NetworkError.noDataReturned
+            throw MGPVaultError.noDataReturned
         }
 
         guard let response = response as? HTTPURLResponse else {
-            throw NetworkError.noResponse
+            throw MGPVaultError.noResponse
         }
     
         let statusCode = response.statusCode
@@ -193,17 +193,16 @@ private extension NetworkUtil {
                     data = try decodeAsDataString(data)
                 }
                 return try decode(data)
-
             case 300..<400:
-                throw NetworkError.redirectError
+                throw MGPVaultError.redirectError
             case 400..<500:
                 let payload = try jsonSerializeOrError(data)
-                throw NetworkError.clientError(additionalInfo: payload, headerInfo: response.allHeaderFields)
+                throw MGPVaultError.clientError(additionalInfo: payload, headerInfo: response.allHeaderFields)
             case 500...:
                 let payload = try jsonSerializeOrError(data)
-                throw NetworkError.serverError(additionalInfo: payload)
+                throw MGPVaultError.serverError(additionalInfo: payload)
             default:
-                throw NetworkError.unknownError
+                throw MGPVaultError.unknownError
             }
         } catch let error {
             guard statusCode == 204 else { throw error }
@@ -222,7 +221,7 @@ private extension NetworkUtil {
     func jsonSerializeOrError(_ data: Data) throws -> [String: Any] {
         guard let json = try JSONSerialization.jsonObject(
             with: data, options: []
-        ) as? [String: Any] else { throw NetworkError.unknownError }
+        ) as? [String: Any] else { throw MGPVaultError.unknownError }
 
         return json
     }
