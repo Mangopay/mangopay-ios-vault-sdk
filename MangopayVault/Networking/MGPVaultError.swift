@@ -63,7 +63,6 @@ enum MGPVaultError: Error {
 
     var description: String {
         switch self {
-            
         case .cardNumberInvalid, .cardNumberRqd:
             return "The card number’s format provided for the card registration is invalid."
         case .expDateInvalid, .expDateRqd:
@@ -73,18 +72,17 @@ enum MGPVaultError: Error {
         case .cardRegFailed, .noDataReturned, .noResponse:
             return "The card registration failed"
         case .cardTokenError:
-            return "The token for the card wasn't created.  This error occurs when the tokenization server does not receive any data during the tokenization HTTP call. It can be due to a timeout, or the call being blocked by an anti-virus, plugin, or extension."
+            return "The token for the card wasn't created. This error occurs when the tokenization server does not receive any data during the tokenization HTTP call. It can be due to a timeout, or the call being blocked by an anti-virus, plugin, or extension."
         default:
             return self.reason
         }
-        
     }
 
     var code: Int {
         switch self {
-        case .clientError(additionalInfo: let additionalInfo, headerInfo: let headerInfo):
+        case .clientError(additionalInfo: let _, headerInfo: let _):
             return -0005
-        case .serverError(additionalInfo: let additionalInfo):
+        case .serverError(additionalInfo: let _):
             return -0004
         case .redirectError:
             return -0003
