@@ -87,12 +87,7 @@ public class MangopayVault {
                 guard !redData.RegistrationData.hasPrefix("errorCode") else {
                     let code = String(redData.RegistrationData.split(separator: "=").last ?? "")
                     DispatchQueue.main.async {
-                        let error =  NSError(
-                            domain: "Payline API error: \(redData.RegistrationData)",
-                            code: Int(code) ?? 09101,
-                            userInfo: ["Error": redData.RegistrationData]
-                        )
-                        mangoPayVaultCallback(.none, error)
+                        mangoPayVaultCallback(.none, MGPVaultError.cardRegFailed)
                     }
                     return
                 }
@@ -107,7 +102,15 @@ public class MangopayVault {
                     mangoPayVaultCallback(updateRes, .none)
                 }
             } catch {
-                DispatchQueue.main.async {
+                guard let _error = error as? MGPVaultError else {
+                    mangoPayVaultCallback(.none, error)
+                    return
+                }
+                
+                switch _error {
+                case .noResponse:
+                    mangoPayVaultCallback(.none, MGPVaultError.cardTokenError)
+                default:
                     mangoPayVaultCallback(.none, error)
                 }
             }
@@ -118,27 +121,27 @@ public class MangopayVault {
     static func validateCard(with cardInfo: Cardable) throws -> Bool {
         
         guard let cardNum = cardInfo.cardNumber else {
-            throw CardValidationError.cardNumberRqd
+            throw MGPVaultError.cardNumberRqd
         }
         
         guard let expirationDate = cardInfo.cardExpirationDate else {
-            throw CardValidationError.expDateRqd
+            throw MGPVaultError.expDateRqd
         }
         
         guard let cvv = cardInfo.cvc else {
-            throw CardValidationError.cvvRqd
+            throw MGPVaultError.cvvRqd
         }
         
         if !Validator.luhnCheck(cardNum) {
-            throw CardValidationError.cardNumberInvalid
+            throw MGPVaultError.cardNumberInvalid
         }
         
         if !Validator.expDateValidation(dateStr: expirationDate) {
-            throw CardValidationError.expDateInvalid
+            throw MGPVaultError.expDateInvalid
         }
         
         if !(cvv.count >= 3 && cvv.count <= 4) {
-            throw CardValidationError.cvvInvalid
+            throw MGPVaultError.cvvInvalid
         }
         
         return true
