@@ -139,7 +139,11 @@ public class MangopayVault {
         if !Validator.expDateValidation(dateStr: expirationDate) {
             throw MGPVaultError.expDateInvalid
         }
-        
+
+        if Validator.isTooFarInFuture(dateStr: expirationDate) {
+            throw MGPVaultError.expDateInvalid
+        }
+    
         if !(cvv.count >= 3 && cvv.count <= 4) {
             throw MGPVaultError.cvvInvalid
         }
