@@ -16,6 +16,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var cardNumberTextfield: UITextField!
     @IBOutlet weak var cvvTextfield: UITextField!
+    @IBOutlet weak var cardNameField: UITextField!
     
     @IBOutlet weak var mmExpiryField: UITextField!
     @IBOutlet weak var yyExpiryField: UITextField!
@@ -57,6 +58,7 @@ class ViewController: UIViewController {
     func grabData() -> CardInfo? {
         
         guard let cardNum = cardNumberTextfield.text,
+              let cardName = cardNameField.text,
               let cvv = cvvTextfield.text,
               let month = mmExpiryField.text,
               let year = yyExpiryField.text else { return nil }
@@ -65,6 +67,7 @@ class ViewController: UIViewController {
         
         return CardInfo(
             cardNumber: cardNum,
+            cardHolderName: cardName,
             cardExpirationDate: expStr,
             cardCvx: cvv
         )
@@ -106,11 +109,11 @@ class ViewController: UIViewController {
   
     func performVaultTokenisation(card: CardInfo, cardRegistration: CardRegistration) {
         
-       MangoPayVault.initialize(clientId: clientId, environment: .sandbox)
+        MangopayVault.initialize(clientId: clientId, environment: .sandbox)
         
         showLoader(true)
         
-        MangoPayVault.tokenizeCard(
+        MangopayVault.tokenizeCard(
             card: card,
             cardRegistration: cardRegistration) { card, error in
                 guard let _ = card else {
