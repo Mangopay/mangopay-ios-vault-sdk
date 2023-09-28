@@ -38,11 +38,11 @@ public struct Validator {
         let currentMonth = Calendar.current.component(.month, from: Date())
         
         var _tempDateStr = dateStr
-        if dateStr.count >= 5 {
-            _tempDateStr.insert(contentsOf: "20", at: _tempDateStr.index(_tempDateStr.startIndex, offsetBy: 3))
+        if dateStr.count < 5 {
+            _tempDateStr.insert(contentsOf: "20", at: _tempDateStr.index(_tempDateStr.startIndex, offsetBy: 2))
         }
 
-        guard let actualDate = Date(_tempDateStr, format: "MM/yyyy") else { return false }
+         guard let actualDate = Date(_tempDateStr, format: "MMyyyy") else { return false }
         let enteredYear = Calendar.current.dateComponents([.year], from: actualDate).year ?? 0
         let enteredMonth = Calendar.current.dateComponents([.month], from: actualDate).month ?? 0
 
@@ -73,11 +73,11 @@ public struct Validator {
         let currentYear = Calendar.current.component(.year, from: Date())
         
         var _tempDateStr = dateStr
-        if dateStr.count >= 5 {
-            _tempDateStr.insert(contentsOf: "20", at: _tempDateStr.index(_tempDateStr.startIndex, offsetBy: 3))
+        if dateStr.count < 5 {
+            _tempDateStr.insert(contentsOf: "20", at: _tempDateStr.index(_tempDateStr.startIndex, offsetBy: 2))
         }
         
-        guard let actualDate = Date(_tempDateStr, format: "MM/yyyy") else { return false }
+        guard let actualDate = Date(_tempDateStr, format: "MMyyyy") else { return false }
         let enteredYear = Calendar.current.dateComponents([.year], from: actualDate).year ?? 0
 
         guard enteredYear > (currentYear + 20) else {
