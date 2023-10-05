@@ -12,6 +12,7 @@ public typealias MangopayCallBack = ((CardRegistration?, Error?) -> ())
 public enum Environment: String {
     case sandbox
     case prod
+    case t3
 
     public var url: URL {
         switch self {
@@ -19,6 +20,8 @@ public enum Environment: String {
             return URL(string: "https://api.sandbox.mangopay.com")!
         case .prod:
             return URL(string: "https://api.mangopay.com")!
+        case .t3:
+            return URL(string: "https://testing3-api.mangopay.com")!
         }
     }
 }
