@@ -9,6 +9,7 @@ public protocol Cardable {
 public struct CardInfo: Codable, Cardable {
     
     public var cardNumber: String?
+    public var cardHolderName: String?
     public var cardExpirationDate: String?
     public var cardCvx: String?
     public var cardType: String?
@@ -41,6 +42,7 @@ public struct CardInfo: Codable, Cardable {
 
     public init(
         cardNumber: String? = nil,
+        cardHolderName: String? = nil,
         cardExpirationDate: String? = nil,
         cardCvx: String? = nil,
         cardType: String? = nil,
@@ -48,6 +50,7 @@ public struct CardInfo: Codable, Cardable {
         data: String? = nil
     ) {
         self.cardNumber = cardNumber
+        self.cardHolderName = cardHolderName
         self.cardExpirationDate = cardExpirationDate
         self.cardCvx = cardCvx
         self.cardType = cardType

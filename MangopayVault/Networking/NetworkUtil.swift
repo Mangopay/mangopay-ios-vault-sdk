@@ -136,8 +136,7 @@ extension NetworkUtil {
                  let authDataStr = String(format: "%@:%@", username, password)
                  let authData = authDataStr.data(using: String.Encoding.utf8)!
                  let base64LoginString = authData.base64EncodedString()
-                 
-                 let str = "Y2hlY2tvdXRzcXVhdGVzdDo3Zk9mdnQzb3p2NnZrQXAxUGFocTU2aFJSWFlxSnFOWFE0RDU4djVRQ3dUb2NDVldXQw=="
+
                  request.addValue("Basic \(base64LoginString)", forHTTPHeaderField: "Authorization")
              }
 

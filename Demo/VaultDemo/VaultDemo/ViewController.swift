@@ -16,6 +16,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var cardNumberTextfield: UITextField!
     @IBOutlet weak var cvvTextfield: UITextField!
+    @IBOutlet weak var cardNameField: UITextField!
     
     @IBOutlet weak var mmExpiryField: UITextField!
     @IBOutlet weak var yyExpiryField: UITextField!
@@ -29,6 +30,14 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         showLoader(false)
+
+        apiKeyTextfield.text = "7fOfvt3ozv6vkAp1Pahq56hRRXYqJqNXQ4D58v5QCwTocCVWWC"
+        clientIDTextfield.text = "checkoutsquatest"
+        userIdTextfield.text = "158091557"
+        cvvTextfield.text = "123"
+        cardNumberTextfield.text = "4242424242424242"
+        mmExpiryField.text = "12"
+        yyExpiryField.text = "23"
     }
 
     @IBAction func didTapPay(_ sender: UIButton) {
@@ -57,6 +66,7 @@ class ViewController: UIViewController {
     func grabData() -> CardInfo? {
         
         guard let cardNum = cardNumberTextfield.text,
+              let cardName = cardNameField.text,
               let cvv = cvvTextfield.text,
               let month = mmExpiryField.text,
               let year = yyExpiryField.text else { return nil }
@@ -65,6 +75,7 @@ class ViewController: UIViewController {
         
         return CardInfo(
             cardNumber: cardNum,
+            cardHolderName: cardName,
             cardExpirationDate: expStr,
             cardCvx: cvv
         )
@@ -106,11 +117,11 @@ class ViewController: UIViewController {
   
     func performVaultTokenisation(card: CardInfo, cardRegistration: CardRegistration) {
         
-       MangoPayVault.initialize(clientId: clientId, environment: .sandbox)
+        MangopayVault.initialize(clientId: clientId, environment: .sandbox)
         
         showLoader(true)
         
-        MangoPayVault.tokenizeCard(
+        MangopayVault.tokenizeCard(
             card: card,
             cardRegistration: cardRegistration) { card, error in
                 guard let _ = card else {

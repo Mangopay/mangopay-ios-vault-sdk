@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum MGPVaultError: Error {
+public enum MGPVaultError: Error {
     case noDataReturned
     case redirectError
     case clientError(additionalInfo: [String: Any]?, headerInfo: [AnyHashable: Any]?)
@@ -20,6 +20,7 @@ enum MGPVaultError: Error {
     case cardNumberInvalid
     case expDateRqd
     case expDateInvalid
+    case expInFuture
     case cvvRqd
     case cvvInvalid
 
@@ -50,6 +51,8 @@ enum MGPVaultError: Error {
             return "Expiration Date Required"
         case .expDateInvalid:
             return "Expiration Date Invalid"
+        case .expInFuture:
+            return "Card Expiry too far in the future"
         case .cvvRqd:
             return "CVV Required"
         case .cvvInvalid:
@@ -80,9 +83,9 @@ enum MGPVaultError: Error {
 
     var code: Int {
         switch self {
-        case .clientError(additionalInfo: let _, headerInfo: let _):
+        case .clientError(additionalInfo: _, headerInfo: _):
             return -0005
-        case .serverError(additionalInfo: let _):
+        case .serverError(additionalInfo: _):
             return -0004
         case .redirectError:
             return -0003
@@ -90,7 +93,7 @@ enum MGPVaultError: Error {
             return -0001
         case .unknownError:
             return -0002
-        case .cardNumberInvalid, .cardNumberRqd:
+        case .cardNumberInvalid, .expInFuture, .cardNumberRqd:
             return 105202
         case .expDateInvalid, .expDateRqd:
             return 105203
