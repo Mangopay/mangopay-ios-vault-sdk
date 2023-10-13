@@ -83,9 +83,9 @@ public enum MGPVaultError: Error {
 
     var code: Int {
         switch self {
-        case .clientError(additionalInfo: let _, headerInfo: let _):
+        case .clientError(additionalInfo: _, headerInfo: _):
             return -0005
-        case .serverError(additionalInfo: let _):
+        case .serverError(additionalInfo: _):
             return -0004
         case .redirectError:
             return -0003
