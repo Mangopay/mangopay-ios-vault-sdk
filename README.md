@@ -38,7 +38,7 @@ Follow these steps to integrate the package into your Xcode project with SPM,
 Open your `podfile` and add:
 
 ```swift
-pod 'MangoPayVault'
+pod 'MangopayVaultSDK'
 ```
 
 Add these sources above your `podfile` :
