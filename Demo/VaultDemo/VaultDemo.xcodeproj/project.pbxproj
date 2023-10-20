@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,8 +16,8 @@
 		987DEF5A2A3AED6B005C83DE /* VaultDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987DEF592A3AED6B005C83DE /* VaultDemoTests.swift */; };
 		987DEF642A3AED6B005C83DE /* VaultDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987DEF632A3AED6B005C83DE /* VaultDemoUITests.swift */; };
 		987DEF662A3AED6B005C83DE /* VaultDemoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987DEF652A3AED6B005C83DE /* VaultDemoUITestsLaunchTests.swift */; };
-		987DEF762A3B159E005C83DE /* MangopayVault in Frameworks */ = {isa = PBXBuildFile; productRef = 987DEF752A3B159E005C83DE /* MangopayVault */; };
 		987DEF792A3B2854005C83DE /* netfox in Frameworks */ = {isa = PBXBuildFile; productRef = 987DEF782A3B2854005C83DE /* netfox */; };
+		98983C7E2AE2762300818520 /* MangopayVaultSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 98983C7D2AE2762300818520 /* MangopayVaultSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,8 +59,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98983C7E2AE2762300818520 /* MangopayVaultSDK in Frameworks */,
 				987DEF792A3B2854005C83DE /* netfox in Frameworks */,
-				987DEF762A3B159E005C83DE /* MangopayVault in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,8 +166,8 @@
 			);
 			name = VaultDemo;
 			packageProductDependencies = (
-				987DEF752A3B159E005C83DE /* MangopayVault */,
 				987DEF782A3B2854005C83DE /* netfox */,
+				98983C7D2AE2762300818520 /* MangopayVaultSDK */,
 			);
 			productName = VaultDemo;
 			productReference = 987DEF3F2A3AED69005C83DE /* VaultDemo.app */;
@@ -243,6 +243,7 @@
 			mainGroup = 987DEF362A3AED68005C83DE;
 			packageReferences = (
 				987DEF772A3B2854005C83DE /* XCRemoteSwiftPackageReference "netfox" */,
+				98983C7C2AE2762300818520 /* XCLocalSwiftPackageReference "../.." */,
 			);
 			productRefGroup = 987DEF402A3AED69005C83DE /* Products */;
 			projectDirPath = "";
@@ -632,6 +633,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		98983C7C2AE2762300818520 /* XCLocalSwiftPackageReference "../.." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../..;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		987DEF772A3B2854005C83DE /* XCRemoteSwiftPackageReference "netfox" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -644,14 +652,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		987DEF752A3B159E005C83DE /* MangopayVault */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MangopayVault;
-		};
 		987DEF782A3B2854005C83DE /* netfox */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 987DEF772A3B2854005C83DE /* XCRemoteSwiftPackageReference "netfox" */;
 			productName = netfox;
+		};
+		98983C7D2AE2762300818520 /* MangopayVaultSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MangopayVaultSDK;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
