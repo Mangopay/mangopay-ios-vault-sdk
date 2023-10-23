@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import MangopayVault
+import MangopayVaultSDK
 
 class ViewController: UIViewController {
 

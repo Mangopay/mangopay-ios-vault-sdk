@@ -12,14 +12,14 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "MangopayVault",
-            targets: ["MangopayVault"]),
+            name: "MangopayVaultSDK",
+            targets: ["MangopayVaultSDK"]),
     ],
     
     targets: [
         .target(
-            name: "MangopayVault",
-            path: "MangopayVault"
+            name: "MangopayVaultSDK",
+            path: "MangopayVaultSDK"
         ),
         .testTarget(
             name: "Tests",
