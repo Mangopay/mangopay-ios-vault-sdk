@@ -93,6 +93,7 @@ public final class MangopayVaultClient: NetworkUtil, CardRegistrationClientProto
                 "Username" : clientId,
                 "Password": apiKey
             ],
+            apiKey: apiKey,
             verbose: true
         )
     }
