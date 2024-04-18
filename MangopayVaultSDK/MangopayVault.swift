@@ -26,16 +26,27 @@ public enum Environment: String {
     }
 }
 
+public enum Tenant: String {
+    case eu
+    case uk
+}
+
 public class MangopayVault {
     
     private static var paylineClient: CardRegistrationClientProtocol?
 
     private static var clientId: String? = nil
     private static var environment: Environment = .sandbox
+    private static var tenant: Tenant = .eu
 
-    public static func initialize(clientId: String, environment: Environment) {
+    public static func initialize(
+        clientId: String,
+        environment: Environment,
+        tenant: Tenant
+    ) {
         self.clientId = clientId
         self.environment = environment
+        self.tenant = tenant
     }
 
     func setPaylineClient(paylineClient: CardRegistrationClientProtocol) {
@@ -99,6 +110,7 @@ public class MangopayVault {
                 let updateRes = try await paylineClient!.updateCardRegistration(
                     redData,
                     clientId: _clientId,
+                    tenant: self.tenant,
                     cardRegistrationId: cardId
                 )
                 DispatchQueue.main.async {
