@@ -96,7 +96,11 @@ public class MangopayVault {
                 _card.accessKeyRef = _cardRegistration.accessKey
                 _card.data = _cardRegistration.preregistrationData
 
-                let redData = try await self.paylineClient!.postCardInfo(_card, url: url)
+                let redData = try await self.paylineClient!.postCardInfo(
+                    _card,
+                    url: url,
+                    tenant: self.tenant
+                )
                 
                 guard !redData.RegistrationData.hasPrefix("errorCode") else {
                     let code = String(redData.RegistrationData.split(separator: "=").last ?? "")
@@ -110,7 +114,6 @@ public class MangopayVault {
                 let updateRes = try await paylineClient!.updateCardRegistration(
                     redData,
                     clientId: _clientId,
-                    tenant: self.tenant,
                     cardRegistrationId: cardId
                 )
                 DispatchQueue.main.async {
