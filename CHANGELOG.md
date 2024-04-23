@@ -3,3 +3,9 @@
 ### Updated
 
 - Renamed SPM package name to `MangopayVaultSDK` from `MangopayVault`
+
+## [1.0.9] - 2024-04-23
+
+### Updated
+
+- introduced tenant to initialisation parmas
