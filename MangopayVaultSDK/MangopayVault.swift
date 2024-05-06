@@ -114,7 +114,8 @@ public class MangopayVault {
                 let updateRes = try await paylineClient!.updateCardRegistration(
                     redData,
                     clientId: _clientId,
-                    cardRegistrationId: cardId
+                    cardRegistrationId: cardId,
+                    tenant: self.tenant
                 )
                 DispatchQueue.main.async {
                     mangoPayVaultCallback(updateRes, .none)
