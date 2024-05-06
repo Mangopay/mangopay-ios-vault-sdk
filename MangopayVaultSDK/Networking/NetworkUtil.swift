@@ -50,8 +50,9 @@ extension NetworkUtil {
     var headers: [String: String] {
         var _headers = [String: String]()
         _headers["Accept"] = "*/*"
-        _headers["X-SDK-Version"] = "0.0.45-beta"
+        _headers["X-SDK-Version"] = "iOS v1.0.9"
         _headers["User-Agent"] = userAgent
+        _headers["SDK_USER_OS"] = "iOS v\(deviceOS)"
         return _headers
     }
 
