@@ -7,22 +7,22 @@
 
 import Foundation
 
-public protocol CardRegistrationClientProtocol {
+public protocol MagopayVaultClientProtocol {
     func postCardInfo(
         _ cardInfo: CardInfo,
         url: URL,
-        tenant: Tenant
+        tenant: TenantId
     ) async throws -> CardInfo.RegistrationData
 
     func updateCardRegistration(
         _ regData: CardInfo.RegistrationData,
         clientId: String,
         cardRegistrationId: String,
-        tenant: Tenant
+        tenant: TenantId
     ) async throws -> CardRegistration
 }
 
-public final class MangopayVaultClient: NetworkUtil, CardRegistrationClientProtocol {
+public final class MangopayVaultClient: NetworkUtil, MagopayVaultClientProtocol {
     
     var baseUrl: URL!
 
@@ -37,7 +37,7 @@ public final class MangopayVaultClient: NetworkUtil, CardRegistrationClientProto
     public func postCardInfo(
         _ cardInfo: CardInfo,
         url: URL,
-        tenant: Tenant
+        tenant: TenantId
     ) async throws -> CardInfo.RegistrationData {
 
         return try await request(
@@ -59,7 +59,7 @@ public final class MangopayVaultClient: NetworkUtil, CardRegistrationClientProto
         _ regData: CardInfo.RegistrationData,
         clientId: String,
         cardRegistrationId: String,
-        tenant: Tenant
+        tenant: TenantId
     ) async throws -> CardRegistration {
         
         let url = baseUrl.appendingPathComponent(

@@ -26,31 +26,31 @@ public enum Environment: String {
     }
 }
 
-public enum Tenant: String {
+public enum TenantId: String {
     case eu
     case uk
 }
 
 public class MangopayVault {
     
-    private static var paylineClient: CardRegistrationClientProtocol?
+    private static var vaultClient: MagopayVaultClientProtocol?
 
     private static var clientId: String? = nil
     private static var environment: Environment = .sandbox
-    private static var tenant: Tenant = .eu
+    private static var tenantId: TenantId = .eu
 
     public static func initialize(
         clientId: String,
         environment: Environment,
-        tenant: Tenant
+        tenantId: TenantId = .eu
     ) {
         self.clientId = clientId
         self.environment = environment
-        self.tenant = tenant
+        self.tenantId = tenantId
     }
 
-    func setPaylineClient(paylineClient: CardRegistrationClientProtocol) {
-        MangopayVault.paylineClient = paylineClient
+    func setPaylineClient(paylineClient: MagopayVaultClientProtocol) {
+        MangopayVault.vaultClient = paylineClient
     }
 
     public static func tokenizeCard(
@@ -83,8 +83,8 @@ public class MangopayVault {
         
         guard let _clientId = MangopayVault.clientId else { return }
 
-        if paylineClient == nil {
-            paylineClient = MangopayVaultClient(url: MangopayVault.environment.url)
+        if vaultClient == nil {
+            vaultClient = MangopayVaultClient(url: MangopayVault.environment.url)
         }
 
         Task {
@@ -96,10 +96,10 @@ public class MangopayVault {
                 _card.accessKeyRef = _cardRegistration.accessKey
                 _card.data = _cardRegistration.preregistrationData
 
-                let redData = try await self.paylineClient!.postCardInfo(
+                let redData = try await self.vaultClient!.postCardInfo(
                     _card,
                     url: url,
-                    tenant: self.tenant
+                    tenant: self.tenantId
                 )
                 
                 guard !redData.RegistrationData.hasPrefix("errorCode") else {
@@ -111,11 +111,11 @@ public class MangopayVault {
                 }
                 guard let cardId = _cardRegistration.id else { return }
                 
-                let updateRes = try await paylineClient!.updateCardRegistration(
+                let updateRes = try await vaultClient!.updateCardRegistration(
                     redData,
                     clientId: _clientId,
                     cardRegistrationId: cardId,
-                    tenant: self.tenant
+                    tenant: self.tenantId
                 )
                 DispatchQueue.main.async {
                     mangoPayVaultCallback(updateRes, .none)

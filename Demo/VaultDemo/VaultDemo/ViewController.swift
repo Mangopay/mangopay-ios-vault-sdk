@@ -117,7 +117,7 @@ class ViewController: UIViewController {
   
     func performVaultTokenisation(card: CardInfo, cardRegistration: CardRegistration) {
         
-        MangopayVault.initialize(clientId: clientId, environment: .sandbox, tenant: .eu)
+        MangopayVault.initialize(clientId: clientId, environment: .sandbox)
         
         showLoader(true)
         
