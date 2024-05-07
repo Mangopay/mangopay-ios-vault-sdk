@@ -4,9 +4,10 @@
 
 - Renamed SPM package name to `MangopayVaultSDK` from `MangopayVault`
 
-## [1.0.9] - 2024-05g-06
+## [1.0.9] - 2024-05-07
 
 ### Updated
 
-- introduced tenant to initialisation parmas
+- rename paylineClient to vaultClient
 - Added SDK_USER_OS to network headers
+- introduced tenant to initialisation parmas
