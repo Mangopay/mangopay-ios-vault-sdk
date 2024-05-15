@@ -101,13 +101,13 @@ The data obtained in the response will be used in the `CardRegistration` defined
 
 ## **Initializing the SDK**
 
-Initialize the SDK with your `ClientId` and select your environment (Sandbox or Production). 
+Initialize the SDK with your `ClientId, select your environment (Sandbox or Production) and your tenant (EU or UK). 
 
 ```swift
 import MangopayVaultSDK
 
 
-MangoPayVault.initialize(clientId: clientId, environment: SANDBOX | PRODUCTION )
+MangoPayVault.initialize(clientId: clientId, environment: SANDBOX | PRODUCTION , tenant: eu | uk)
 ```
 
 ## Providing data for tokenization

@@ -31,9 +31,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         showLoader(false)
 
-        apiKeyTextfield.text = "7fOfvt3ozv6vkAp1Pahq56hRRXYqJqNXQ4D58v5QCwTocCVWWC"
+        apiKeyTextfield.text = "26a56e354c7f42648a75a8319efb8584"
         clientIDTextfield.text = "checkoutsquatest"
-        userIdTextfield.text = "158091557"
+        userIdTextfield.text = "157868268"
         cvvTextfield.text = "123"
         cardNumberTextfield.text = "4242424242424242"
         mmExpiryField.text = "12"

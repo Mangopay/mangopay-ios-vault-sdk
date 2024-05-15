@@ -7,12 +7,22 @@
 
 import Foundation
 
-public protocol CardRegistrationClientProtocol {
-    func postCardInfo(_ cardInfo: CardInfo, url: URL) async throws -> CardInfo.RegistrationData
-    func updateCardRegistration(_ regData: CardInfo.RegistrationData, clientId: String, cardRegistrationId: String) async throws -> CardRegistration
+public protocol MagopayVaultClientProtocol {
+    func postCardInfo(
+        _ cardInfo: CardInfo,
+        url: URL,
+        tenant: TenantId
+    ) async throws -> CardInfo.RegistrationData
+
+    func updateCardRegistration(
+        _ regData: CardInfo.RegistrationData,
+        clientId: String,
+        cardRegistrationId: String,
+        tenant: TenantId
+    ) async throws -> CardRegistration
 }
 
-public final class MangopayVaultClient: NetworkUtil, CardRegistrationClientProtocol {
+public final class MangopayVaultClient: NetworkUtil, MagopayVaultClientProtocol {
     
     var baseUrl: URL!
 
@@ -24,13 +34,18 @@ public final class MangopayVaultClient: NetworkUtil, CardRegistrationClientProto
         self.baseUrl = env.url
     }
     
-    public func postCardInfo(_ cardInfo: CardInfo, url: URL) async throws -> CardInfo.RegistrationData {
+    public func postCardInfo(
+        _ cardInfo: CardInfo,
+        url: URL,
+        tenant: TenantId
+    ) async throws -> CardInfo.RegistrationData {
 
         return try await request(
             url: url,
             method: .post,
             additionalHeaders: [
                 "Content-Type" : "application/x-www-form-urlencoded",
+                "x-tentant-id": tenant.rawValue
             ],
             bodyParam: cardInfo.toDict(),
             expecting: CardInfo.RegistrationData.self,
@@ -43,7 +58,9 @@ public final class MangopayVaultClient: NetworkUtil, CardRegistrationClientProto
     public func updateCardRegistration(
         _ regData: CardInfo.RegistrationData,
         clientId: String,
-        cardRegistrationId: String) async throws -> CardRegistration {
+        cardRegistrationId: String,
+        tenant: TenantId
+    ) async throws -> CardRegistration {
         
         let url = baseUrl.appendingPathComponent(
             "/\(apiVersion)/\(clientId)/CardRegistrations/\(cardRegistrationId)",
@@ -54,7 +71,8 @@ public final class MangopayVaultClient: NetworkUtil, CardRegistrationClientProto
             url: url,
             method: .put,
             additionalHeaders: [
-                "Content-Type" : "application/json",
+                "Content-Type": "application/json",
+                "x-tentant-id": tenant.rawValue
             ],
             bodyParam: regData.toDict(),
             expecting: CardRegistration.self,
@@ -85,6 +103,7 @@ public final class MangopayVaultClient: NetworkUtil, CardRegistrationClientProto
                 "Username" : clientId,
                 "Password": apiKey
             ],
+            apiKey: apiKey,
             verbose: true
         )
     }

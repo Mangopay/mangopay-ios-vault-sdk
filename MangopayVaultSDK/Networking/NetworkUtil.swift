@@ -50,8 +50,9 @@ extension NetworkUtil {
     var headers: [String: String] {
         var _headers = [String: String]()
         _headers["Accept"] = "*/*"
-        _headers["X-SDK-Version"] = "0.0.45-beta"
+        _headers["X-SDK-Version"] = "iOS v1.0.9"
         _headers["User-Agent"] = userAgent
+        _headers["SDK_USER_OS"] = "iOS v\(deviceOS)"
         return _headers
     }
 
@@ -84,6 +85,7 @@ extension NetworkUtil {
            expecting responseType: T.Type,
            authenticate: Bool = true,
            basicAuthDict: [String: String]? = nil,
+           apiKey: String? = nil,
            verbose: Bool = false,
            useXXForm: Bool = false,
            decodeAsString: Bool = false
@@ -126,20 +128,27 @@ extension NetworkUtil {
  
          request.httpMethod = method.rawValue
 
+//         headers.forEach {(request.addValue($0.value, forHTTPHeaderField: $0.key))}
+//         additionalHeaders?.forEach {(request.addValue($0.value, forHTTPHeaderField: $0.key))}
+//         
+//         
+//         if let basicAuthData = basicAuthDict {
+//             if let username = basicAuthData["Username"], let password = basicAuthData["Password"] {
+//    
+//                 let authDataStr = String(format: "%@:%@", username, password)
+//                 let authData = authDataStr.data(using: String.Encoding.utf8)!
+//                 let base64LoginString = authData.base64EncodedString()
+//
+//                 request.addValue("Basic \(base64LoginString)", forHTTPHeaderField: "Authorization")
+//             }
+//
+//         }
+         
          headers.forEach {(request.addValue($0.value, forHTTPHeaderField: $0.key))}
          additionalHeaders?.forEach {(request.addValue($0.value, forHTTPHeaderField: $0.key))}
          
-         
-         if let basicAuthData = basicAuthDict {
-             if let username = basicAuthData["Username"], let password = basicAuthData["Password"] {
-    
-                 let authDataStr = String(format: "%@:%@", username, password)
-                 let authData = authDataStr.data(using: String.Encoding.utf8)!
-                 let base64LoginString = authData.base64EncodedString()
-
-                 request.addValue("Basic \(base64LoginString)", forHTTPHeaderField: "Authorization")
-             }
-
+         if let apiKey = apiKey {
+             request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
          }
 
 
