@@ -48,7 +48,7 @@ public struct CardRegistration: Codable {
         self.cardRegistrationURLStr = cardRegistrationURLStr
         self.currency = currency
         self.status = status
-        self.resultCode = ResultCode
+        self.resultCode = resultCode
     }
 
     enum CodingKeys: String, CodingKey {
